@@ -11,12 +11,11 @@ const AsiakasRouter = require ('./routes/Asiakas');
 const KorttiRouter = require ('./routes/Kortti');
 const TiliRouter = require('./routes/Tili');
 const TilitapahtumatRouter = require('./routes/Tilitapahtumat');
-
-
-app.use(basicAuth({users: { 'admin': '1234' }}))
+const basicAuth = require('express-basic-auth')
 
 var app = express();
 
+app.use(basicAuth({users: { 'admin': '1234' }}))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
