@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const mysql = require('mysql');
 
+const userRouter = require('./routes/user');
 const asiakas_tiliRouter = require('./routes/asiakas_tili');
 const AsiakasRouter = require ('./routes/Asiakas');
 const KorttiRouter = require ('./routes/Kortti');
@@ -22,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use('/user', userRouter);
 app.use('/asiakas_tili', asiakas_tiliRouter);
 app.use('/Asiakas', AsiakasRouter);
 app.use('/Kortti', KorttiRouter);
