@@ -2,15 +2,15 @@ const db = require('../database');
 
 const Asiakas = {
   getById: function(id, callback) {
-    return db.query('select * from Asiakas where id_Asiakas=?', [id], callback);
+    return db.query('select * from Asiakas where idAsiakas=?', [id], callback);
   },
   getAll: function(callback) {
     return db.query('select * from Asiakas', callback);
   },
   add: function(Asiakas, callback) {
     return db.query(
-      'insert into Asiakas (name,author,isbn) values(?,?,?)',
-      [Asiakas.name, Asiakas.author, Asiakas.isbn],
+      'insert into Asiakas (Etunimi, Sukunimi, Puhelinnumero, Osoite, Henkilöturvatunnus) values(?,?,?,?,?)',
+      [ Asiakas.Etunimi, Asiakas.Sukunimi, Asiakas.Puhelinnumero, Asiakas.Osoite, Asiakas.Henkilöturvatunnus],
       callback
     );
   },
@@ -19,8 +19,8 @@ const Asiakas = {
   },
   update: function(id, Asiakas, callback) {
     return db.query(
-      'update Asiakas set name=?,author=?, isbn=? where id_Asiakas=?',
-      [Asiakas.name, Asiakas.author, Asiakas.isbn, id],
+      'update Asiakas set Etunimi=?, Sukunimi=?, Puhelinnumero=?, Osoite=?, Henkilöturvatunnus=? where idAsiakas=?',
+      [Asiakas.Etunimi, Asiakas.Sukunimi, Asiakas.Puhelinnumero, Asiakas.Osoite, Asiakas.Henkilöturvatunnus, id],
       callback
     );
   }
