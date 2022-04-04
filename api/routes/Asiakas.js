@@ -4,8 +4,8 @@ const Asiakas = require('../models/Asiakas_model');
 
 router.get('/:id?',
  function(request, response) {
-  if (request.params.id) {
-    Asiakas.getById(request.params.id, function(err, dbResult) {
+  if (request.body.idAsiakas) {
+    Asiakas.getById(request.body.idAsiakas, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
@@ -36,9 +36,9 @@ function(request, response) {
 });
 
 
-router.delete('/:id', 
+router.delete('/:id?', 
 function(request, response) {
-  Asiakas.delete(request.params.id, function(err, dbResult) {
+  Asiakas.delete(request.body.idAsiakas, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
@@ -48,9 +48,9 @@ function(request, response) {
 });
 
 
-router.put('/:id', 
+router.put('/:id?', 
 function(request, response) {
-  Asiakas.update(request.params.id, request.body, function(err, dbResult) {
+  Asiakas.update(request.params.idAsiakas, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
