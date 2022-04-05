@@ -1,8 +1,8 @@
 const db = require('../database');
 
 const Tili = {
-  getById: function(id, callback) {
-    return db.query('select * from Tili where idTili=?', [id], callback);
+  getById: function(idTili, callback) {
+    return db.query('select * from Tili where idTili=?', [idTili], callback);
   },
   getAll: function(callback) {
     return db.query('select * from Tili', callback);
@@ -14,13 +14,13 @@ const Tili = {
       callback
     );
   },
-  delete: function(id, callback) {
-    return db.query('delete from Tili where idTili=?', [id], callback);
+  delete: function(idTili, callback) {
+    return db.query('delete from Tili where idTili=?', [idTili], callback);
   },
   update: function(id, Tili, callback) {
     return db.query(
       'update Tili set Saldo=?, Credit=?, Luottoraja=? where idTili=?',
-      [Tili.Saldo, Tili.Credit, Tili.Luottoraja, id],
+      [Tili.Saldo, Tili.Credit, Tili.Luottoraja, Tili.idTili],
       callback
     );
   }

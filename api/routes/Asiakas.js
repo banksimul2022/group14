@@ -50,7 +50,7 @@ function(request, response) {
 
 router.put('/:id?', 
 function(request, response) {
-  Asiakas.update(request.params.idAsiakas, request.body, function(err, dbResult) {
+  Asiakas.update(request.body.idAsiakas, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {

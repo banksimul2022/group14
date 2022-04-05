@@ -4,8 +4,8 @@ const Kortti = require('../models/Kortti_model');
 
 router.get('/:id?',
  function(request, response) {
-  if (request.params.id) {
-    Kortti.getById(request.params.id, function(err, dbResult) {
+  if (request.body.idKortti) {
+    Kortti.getById(request.body.idKortti, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
@@ -36,9 +36,9 @@ function(request, response) {
 });
 
 
-router.delete('/:id', 
+router.delete('/:id?', 
 function(request, response) {
-  Kortti.delete(request.params.id, function(err, dbResult) {
+  Kortti.delete(request.body.idKortti, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
@@ -48,9 +48,9 @@ function(request, response) {
 });
 
 
-router.put('/:id', 
+router.put('/:id?', 
 function(request, response) {
-  Kortti.update(request.params.id, request.body, function(err, dbResult) {
+  Kortti.update(request.body.idKortti, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {

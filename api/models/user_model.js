@@ -3,11 +3,11 @@ const bcrypt = require('bcryptjs');
 
 const saltRounds=10;
 const user={
-  get: function(callback) {
+  getAll: function(callback) {
     return db.query('select * from Kortti', callback);
   },
   getById: function(id, callback) {
-    return db.query('select * from Kortti where idKortti=?', [id], callback);
+    return db.query('select * from Kortti where idKortti=?', [idKortti], callback);
   },
   add: function(user, callback) {
     bcrypt.hash(user.PIN, saltRounds, function(err, hash) {
@@ -15,13 +15,13 @@ const user={
       [user.idKortti, hash], callback);
     });
   },
-  delete: function(id, callback) {
-    return db.query('delete from Kortti where idKortti=?', [id], callback);
+  delete: function(idKortti, callback) {
+    return db.query('delete from Kortti where idKortti=?', [idKortti], callback);
   },
   update: function(id, user, callback) {
     bcrypt.hash(user.PIN, saltRounds, function(err, hash) {
       return db.query('update Kortti set idKortti=?, PIN=? where idKortti=?',
-      [user.idKortti, hash, id], callback);
+      [user.idKortti, hash, idKortti], callback);
     });
   }
 
