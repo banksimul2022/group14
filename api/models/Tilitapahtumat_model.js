@@ -1,7 +1,7 @@
 const db = require('../database');
 
 const Tilitapahtumat = {
-  getById: function(id, callback) {
+  getById: function(idTilitapahtumat, callback) {
     return db.query('select * from Tilitapahtumat where idTilitapahtumat=?', [id], callback);
   },
   getAll: function(callback) {
@@ -14,13 +14,13 @@ const Tilitapahtumat = {
       callback
     );
   },
-  delete: function(id, callback) {
+  delete: function(idTilitapahtumat, callback) {
     return db.query('delete from Tilitapahtumat where idTilitapahtumat=?', [id], callback);
   },
   update: function(id, Tilitapahtumat, callback) {
     return db.query(
       'update Tilitapahtumat set Tili_idTili=?, PVM=?, Kellonaika=?, Saldonmuutos=? where idTilitapahtumat=?',
-      [Tilitapahtumat.Tili_idTili, Tilitapahtumat.PVM, Tilitapahtumat.Kellonaika, Tilitapahtumat.Saldonmuutos, id],
+      [Tilitapahtumat.Tili_idTili, Tilitapahtumat.PVM, Tilitapahtumat.Kellonaika, Tilitapahtumat.Saldonmuutos, idTilitapahtumat],
       callback
     );
   }

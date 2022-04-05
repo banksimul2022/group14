@@ -4,8 +4,8 @@ const Tilitapahtumat = require('../models/Tilitapahtumat_model');
 
 router.get('/:id?',
  function(request, response) {
-  if (request.params.id) {
-    Tilitapahtumat.getById(request.params.id, function(err, dbResult) {
+  if (request.body.idTilitapahtumat) {
+    Tilitapahtumat.getById(request.body.idTilitapahtumat, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
@@ -36,9 +36,9 @@ function(request, response) {
 });
 
 
-router.delete('/:id', 
+router.delete('/:id?', 
 function(request, response) {
-  Tilitapahtumat.delete(request.params.id, function(err, dbResult) {
+  Tilitapahtumat.delete(request.body.idTilitapahtumat, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
@@ -48,9 +48,9 @@ function(request, response) {
 });
 
 
-router.put('/:id', 
+router.put('/:id?', 
 function(request, response) {
-  Tilitapahtumat.update(request.params.id, request.body, function(err, dbResult) {
+  Tilitapahtumat.update(request.body.idTilitapahtumat, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {

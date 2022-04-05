@@ -4,8 +4,8 @@ const user = require('../models/user_model');
 
 router.get('/:id?',
  function(request, response) {
-  if (request.params.id) {
-    user.getById(request.params.id, function(err, dbResult) {
+  if (request.body.idKortti) {
+    user.getById(request.body.idKortti, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
@@ -13,7 +13,7 @@ router.get('/:id?',
       }
     });
   } else {
-    user.get(function(err, dbResult) {
+    user.getAll(function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
@@ -33,9 +33,9 @@ function(request, response) {
   });
 });
 
-router.delete('/:id', 
+router.delete('/:id?', 
 function(request, response) {
-  user.delete(request.params.id, function(err, count) {
+  user.delete(request.body.idKortti, function(err, count) {
     if (err) {
       response.json(err);
     } else {
@@ -45,9 +45,9 @@ function(request, response) {
 });
 
 
-router.put('/:id', 
+router.put('/:id?', 
 function(request, response) {
-  user.update(request.params.id, request.body, function(err, dbResult) {
+  user.update(request.body.idKortti, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {

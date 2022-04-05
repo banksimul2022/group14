@@ -1,5 +1,4 @@
 api/node_modules/
 api/.env
-api/database.js
 bankautomat/build/
 bankautomat/*.user
