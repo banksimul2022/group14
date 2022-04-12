@@ -6,140 +6,188 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>568</width>
+    <height>370</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QPushButton" name="btnlogout">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>100</y>
+      <x>490</x>
+      <y>250</y>
+      <width>61</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Log out</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnlogin">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>61</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Log in</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnprev">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>250</y>
+      <width>61</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Prev 10</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnnext">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>61</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Next 10</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lnscreen">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>10</y>
       <width>361</width>
-      <height>311</height>
+      <height>281</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btncredit">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>100</y>
+      <x>490</x>
+      <y>70</y>
       <width>61</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Credit</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="btndraw">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>180</y>
+      <x>490</x>
+      <y>10</y>
       <width>61</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Draw</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="btnactions">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>280</y>
+      <x>10</x>
+      <y>130</y>
       <width>61</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Actions</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="btndebit">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>370</y>
+      <x>490</x>
+      <y>130</y>
       <width>61</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Debit</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="btnback">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>180</y>
+      <x>490</x>
+      <y>190</y>
       <width>61</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Back</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QLineEdit" name="lnstate">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>280</y>
+      <x>240</x>
+      <y>300</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnbalance">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
       <width>61</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_7">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>100</y>
-      <width>61</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>370</y>
-      <width>61</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
+     <string>Balance</string>
     </property>
    </widget>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>568</width>
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuBankrot_Oy">
+    <property name="title">
+     <string>Bankrott Oy</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string/>
+    </property>
+   </widget>
+   <addaction name="menuBankrot_Oy"/>
+   <addaction name="menu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
