@@ -1,17 +1,24 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "drawmoney.h"
+#include "rfid.h"
+#include <QString>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    pRFID = new RFID;
+    pRFID->readSerial();
+    connect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete pRFID;
+    pRFID = nullptr;
 }
 
 void MainWindow::runstatemachine(states s, events e)
@@ -45,6 +52,13 @@ void MainWindow::runstatemachine(states s, events e)
         starthandler(e);
 
     }
+}
+
+void MainWindow::getid(QByteArray b)
+{
+   StringID = QString(b);
+   qDebug()<<"exessä Qstringinä->:"<<StringID;
+   disconnect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
 }
 
 void MainWindow::on_btnlogin_clicked()
@@ -229,14 +243,8 @@ void MainWindow::drawhandler(events e)
 }
 
 void MainWindow::credithandler(events e)
-{
-    if (e == usenext10){
-        ui->lnscreen->setText("next 10 actions");
-        event = usenext10;
-        state = acchistory;
-        ui->lnstate->setText("acchistory");
-    }
-    else if (e == back){
+   {
+    if  (e == back){
         ui->lnscreen->setText("back to mainscreen");
         event = back;
         state = mainscreen;
@@ -246,13 +254,7 @@ void MainWindow::credithandler(events e)
 
 void MainWindow::debithandler(events e)
 {
-    if (e == usenext10){
-        ui->lnscreen->setText("next 10 actions");
-        event = usenext10;
-        state = acchistory;
-        ui->lnstate->setText("acchistory");
-    }
-    else if (e == back){
+     if (e == back){
         ui->lnscreen->setText("back to mainscreen");
         event = back;
         state = mainscreen;
@@ -263,7 +265,7 @@ void MainWindow::debithandler(events e)
 void MainWindow::starthandler(events e)
 {
     if (e == userlogin){
-        ui->lnscreen->setText("Logged in");
+        ui->lnscreen->setText(QString(StringID));
         ui->lnstate->setText("mainscreen");
         event = userlogin;
         state = mainscreen;

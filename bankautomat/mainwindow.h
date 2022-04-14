@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 #include "drawmoney.h"
+#include "rfid.h"
+#include <QDebug>
+#include <QObject>
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -43,6 +47,7 @@ public:
 
 public slots:
     void runstatemachine(states,events);
+    void getid(QByteArray b);
 
 
 private slots:
@@ -68,6 +73,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    RFID * pRFID;
+    QString StringID;
     states state = start;
     events event;
     void loginhandler(events e);
