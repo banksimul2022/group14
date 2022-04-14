@@ -6,6 +6,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
 #include <QObject>
+#include <QString>
 
 class RFID_EXPORT RFID: public QObject
 {
@@ -23,7 +24,7 @@ public slots:
 private:
     QSerialPort * serial = nullptr;
     QByteArray ID;
-
+    QString StringID;
 };
 
 #endif // RFID_H
