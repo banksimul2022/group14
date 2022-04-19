@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QObject>
 #include <QString>
+#include "interface.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -48,6 +49,7 @@ public:
 public slots:
     void runstatemachine(states,events);
     void getid(QByteArray b);
+    void receive(QString);
 
 
 private slots:
@@ -71,10 +73,12 @@ private slots:
 
     void on_btnbalance_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     RFID * pRFID;
     QString StringID;
+    Interface * p1;
     states state = start;
     events event;
     void loginhandler(events e);

@@ -12,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
     pRFID = new RFID;
     pRFID->readSerial();
     connect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
+    //p1=new Interface(this);
+    //connect(p1,SIGNAL(testi(QString)),
+    //        this,SLOT(receive(QString)));
+
 }
 
 MainWindow::~MainWindow()
@@ -59,6 +63,11 @@ void MainWindow::getid(QByteArray b)
    StringID = QString(b);
    qDebug()<<"exessä Qstringinä->:"<<StringID;
    disconnect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
+}
+
+void MainWindow::receive(QString s)
+{
+ ui->lnscreen->setText(s);
 }
 
 void MainWindow::on_btnlogin_clicked()
@@ -265,10 +274,16 @@ void MainWindow::debithandler(events e)
 void MainWindow::starthandler(events e)
 {
     if (e == userlogin){
-        ui->lnscreen->setText(QString(StringID));
+        p1=new Interface(this);
+        connect(p1,SIGNAL(testi(QString)),
+                this,SLOT(receive(QString)));
+        show();
+
+        //ui->lnscreen->setText(QString(StringID));
         ui->lnstate->setText("mainscreen");
         event = userlogin;
         state = mainscreen;
+
 
     }
     else {
