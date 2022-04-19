@@ -32,3 +32,11 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/RFID/build/debug/ -lRFI
 
 INCLUDEPATH += $$PWD/RFID
 DEPENDPATH += $$PWD/RFID
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/PINUI/build/release/ -linterface
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/PINUI/build/debug/ -linterface
+else:unix: LIBS += -L$$PWD/PINUI/build/ -linterface
+
+INCLUDEPATH += $$PWD/PINUI
+DEPENDPATH += $$PWD/PINUI
