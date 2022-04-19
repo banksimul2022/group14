@@ -9,9 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    pRFID = new RFID;
-    pRFID->readSerial();
-    connect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
+    //pRFID = new RFID;
+    //pRFID->readSerial();
+    //connect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
     //p1=new Interface(this);
     //connect(p1,SIGNAL(testi(QString)),
     //        this,SLOT(receive(QString)));
@@ -205,6 +205,12 @@ void MainWindow::historyhandler(events e)
         state = mainscreen;
         ui->lnstate->setText("mainscreen");
     }
+    else if (e == userlogout){
+        ui->lnscreen->setText("Logged out");
+        event = userlogout;
+        state = start;
+        ui->lnstate->setText("start");
+    }
     else {
         ui->lnscreen->setText("Wrong from history");
     }
@@ -218,6 +224,13 @@ void MainWindow::balancehandler(events e)
         event = back;
         state = mainscreen;
         ui->lnstate->setText("mainscreen");
+    }
+    else if (e == userlogout){
+       ui->lnscreen->setText("Logged out");
+       event = userlogout;
+       state = start;
+       ui->lnstate->setText("start");
+
     }
 }
 
@@ -247,6 +260,13 @@ void MainWindow::drawhandler(events e)
         state = mainscreen;
         ui->lnstate->setText("mainscreen");
     }
+    else if (e == userlogout){
+       ui->lnscreen->setText("Logged out");
+       event = userlogout;
+       state = start;
+       ui->lnstate->setText("start");
+
+    }
 
 
 }
@@ -259,6 +279,12 @@ void MainWindow::credithandler(events e)
         state = mainscreen;
         ui->lnstate->setText("mainscreen");
     }
+    else if (e == userlogout){
+        ui->lnscreen->setText("Logged out");
+        event = userlogout;
+        state = start;
+        ui->lnstate->setText("start");
+    }
 }
 
 void MainWindow::debithandler(events e)
@@ -268,18 +294,27 @@ void MainWindow::debithandler(events e)
         event = back;
         state = mainscreen;
         ui->lnstate->setText("mainscreen");
+     }
+     else if (e == userlogout){
+        ui->lnscreen->setText("Logged out");
+        event = userlogout;
+        state = start;
+        ui->lnstate->setText("start");
     }
 }
 
 void MainWindow::starthandler(events e)
 {
     if (e == userlogin){
+        pRFID = new RFID;
+        pRFID->readSerial();
+        connect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
         p1=new Interface(this);
         connect(p1,SIGNAL(testi(QString)),
                 this,SLOT(receive(QString)));
         show();
 
-        //ui->lnscreen->setText(QString(StringID));
+        ui->lnscreen->setText(QString(StringID));
         ui->lnstate->setText("mainscreen");
         event = userlogin;
         state = mainscreen;
