@@ -4,8 +4,8 @@ const Asiakas = require('../models/Asiakas_model');
 
 router.get('/:id?',
  function(request, response) {
-  if (request.body.idAsiakas) {
-    Asiakas.getById(request.body.idAsiakas, function(err, dbResult) {
+  if (request.params.id) {
+    Asiakas.getById(request.params.id, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {

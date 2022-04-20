@@ -4,8 +4,8 @@ const Tili = require('../models/Tili_model');
 
 router.get('/:id?',
  function(request, response) {
-  if (request.body.idTili) {
-    Tili.getById(request.body.idTili, function(err, dbResult) {
+  if (request.params.id) {
+    Tili.getById(request.params.id, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
