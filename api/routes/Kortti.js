@@ -4,8 +4,8 @@ const Kortti = require('../models/Kortti_model');
 
 router.get('/:id?',
  function(request, response) {
-  if (request.body.idKortti) {
-    Kortti.getById(request.body.idKortti, function(err, dbResult) {
+  if (request.params.id) {
+    Kortti.getById(request.params.id, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {

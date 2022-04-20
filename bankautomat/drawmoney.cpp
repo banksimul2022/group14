@@ -14,37 +14,37 @@ Drawmoney::~Drawmoney()
 
 void Drawmoney::on_btndraw20_clicked()
 {
-close();
+button_press();
 }
 
 
 void Drawmoney::on_btndraw40_clicked()
 {
-close();
+button_press();
 }
 
 
 void Drawmoney::on_btndraw60_clicked()
 {
-close();
+button_press();
 }
 
 
 void Drawmoney::on_btndraw100_clicked()
 {
-close();
+button_press();
 }
 
 
 void Drawmoney::on_btndraw200_clicked()
 {
-close();
+button_press();
 }
 
 
 void Drawmoney::on_btndraw500_clicked()
 {
-close();
+button_press();
 }
 
 
@@ -56,6 +56,21 @@ close();
 
 void Drawmoney::on_btndraw_clicked()
 {
-close();
+    close();
+}
+
+void Drawmoney::button_press()
+{
+    QPushButton*button=(QPushButton*)sender();
+
+
+        int number, number2;
+        number = ui->lineEdit->text().toShort();
+        number2 = button->text().toShort();
+
+        int amount=number+number2;
+        QString newamount = QString::number(amount);
+        ui->lineEdit->setText(newamount);
+    return;
 }
 

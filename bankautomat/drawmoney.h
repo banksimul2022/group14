@@ -35,6 +35,8 @@ private slots:
 
     void on_btndraw_clicked();
 
+public slots:
+    void button_press();
 private:
     Ui::Drawmoney *ui;
 };
