@@ -46,6 +46,7 @@ router.post('/',
 );
 
 function generateAccessToken(idKortti) {
+  
   dotenv.config();
   return jwt.sign(idKortti, process.env.MY_TOKEN, { expiresIn: '1800s' });
 }

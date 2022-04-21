@@ -2,7 +2,8 @@ const db = require('../database');
 
 const Tili = {
   getById: function(idTili, callback) {
-    return db.query('select * from Tili where idTili=?', [idTili], callback);
+    return db.query('select * from Tili where idTili=?',
+     [idTili], callback);
   },
   getAll: function(callback) {
     return db.query('select * from Tili', callback);
@@ -24,5 +25,5 @@ const Tili = {
       callback
     );
   }
-};
+}
 module.exports = Tili;
