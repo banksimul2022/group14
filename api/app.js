@@ -14,7 +14,7 @@ const TiliRouter = require('./routes/Tili');
 const TilitapahtumatRouter = require('./routes/Tilitapahtumat');
 
 var app = express();
-
+process.env.TZ = "Europe/Helsinki";
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
