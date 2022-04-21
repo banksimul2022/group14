@@ -4,5 +4,6 @@ const connection = mysql.createPool({
   user: 'bankuser',
   password: 'bank',
   database: 'bank'
+
 });
 module.exports = connection;
