@@ -8,15 +8,20 @@
 #include <QObject>
 #include <QString>
 #include "interface.h"
+#include <QTimer>
+#include "restdll.h"
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
+
 }
 QT_END_NAMESPACE
 
 enum states{
-    login,
     mainscreen,
     acchistory,
     balance,
@@ -35,7 +40,8 @@ enum events{
     usedebit,
     userlogout,
     usebalance,
-    back
+    back,
+    starttimer
 };
 
 class MainWindow : public QMainWindow
@@ -46,33 +52,33 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 public slots:
     void runstatemachine(states,events);
     void getid(QByteArray b);
     void receive(QString);
+    void handletimeout();
+    void maintimer();
+    void returnpostslot(QString);
+    void receivedraw(double);
+
 
 
 private slots:
     void on_btnlogin_clicked();
-
     void on_btnactions_clicked();
-
     void on_btnnext_clicked();
-
     void on_btnprev_clicked();
-
     void on_btndraw_clicked();
-
     void on_btncredit_clicked();
-
     void on_btndebit_clicked();
-
     void on_btnlogout_clicked();
-
     void on_btnback_clicked();
-
     void on_btnbalance_clicked();
-
+signals:
+   void sendparams(QString param1,QString param2);
+   void senddouble(double);
+   void getparams();
 
 private:
     Ui::MainWindow *ui;
@@ -81,7 +87,6 @@ private:
     Interface * p1;
     states state = start;
     events event;
-    void loginhandler(events e);
     void mainhandler(events e);
     void historyhandler(events e);
     void balancehandler(events e);
@@ -89,6 +94,11 @@ private:
     void credithandler(events e);
     void debithandler(events e);
     void starthandler(events e);
+    QTimer  timer;
+    Restdll * pRest;
+    QString param1;
+    QString param2;
+    Drawmoney * pdraw;
 
 };
 #endif // MAINWINDOW_H

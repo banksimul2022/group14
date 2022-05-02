@@ -1,10 +1,13 @@
 #include "drawmoney.h"
+double drawamount;
 
 Drawmoney::Drawmoney(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Drawmoney)
 {
     ui->setupUi(this);
+
+
 }
 
 Drawmoney::~Drawmoney()
@@ -56,7 +59,10 @@ close();
 
 void Drawmoney::on_btndraw_clicked()
 {
-    close();
+qDebug()<<"amount drawissa"<<drawamount;
+emit senddraw(drawamount);
+close();
+
 }
 
 void Drawmoney::button_press()
@@ -71,6 +77,7 @@ void Drawmoney::button_press()
         int amount=number+number2;
         QString newamount = QString::number(amount);
         ui->lineEdit->setText(newamount);
+        drawamount = newamount.toDouble();
     return;
 }
 

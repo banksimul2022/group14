@@ -1,8 +1,8 @@
 const mysql = require('mysql');
 const connection = mysql.createPool({
   host: '127.0.0.1',
-  user: 'bankuser',
-  password: 'bank',
+  user: 'root',
+  password: 'mysql',
   database: 'bank'
 
 });

@@ -46,6 +46,17 @@ function(request, response) {
     }
   });
 });
+router.get('/userid/:korttinumero?', 
+function(request, response) {
+  Kortti.getID(request.params.korttinumero, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
+
 
 
 router.put('/:id?', 
@@ -58,5 +69,7 @@ function(request, response) {
     }
   });
 });
+
+
 
 module.exports = router;
