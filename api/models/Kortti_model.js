@@ -6,6 +6,10 @@ const saltRounds=10;
 const Kortti = {
   getById: function(idKortti, callback) {
     return db.query('select * from Kortti where idKortti=?', [idKortti], callback);
+  },  
+  
+  getID: function(korttinumero,callback) {
+    return db.query('select idKortti,Tili_idTili,Asiakas_idAsiakas from Kortti where korttinumero=?', [korttinumero], callback);
   },
   getAll: function(callback) {
     return db.query('select * from Kortti', callback);

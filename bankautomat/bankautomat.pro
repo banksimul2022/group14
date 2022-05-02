@@ -1,6 +1,6 @@
 QT       += core gui
+QT       +=network
 QT       += serialport
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -40,3 +40,11 @@ else:unix: LIBS += -L$$PWD/PINUI/build/ -linterface
 
 INCLUDEPATH += $$PWD/PINUI
 DEPENDPATH += $$PWD/PINUI
+
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/restdll/build/release/ -lrestdll
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/restdll/build/debug/ -lrestdll
+
+INCLUDEPATH += $$PWD/restdll
+DEPENDPATH += $$PWD/restdll

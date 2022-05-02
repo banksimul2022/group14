@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "drawmoney.h"
-#include "rfid.h"
 #include <QString>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -15,6 +13,43 @@ MainWindow::MainWindow(QWidget *parent)
     //p1=new Interface(this);
     //connect(p1,SIGNAL(testi(QString)),
     //        this,SLOT(receive(QString)));
+    pRest = new Restdll(this);
+    pdraw = new Drawmoney(this);
+
+    connect(pRest,SIGNAL(returnvalues(QString)),
+            this,SLOT(returnpostslot(QString)));
+
+    connect(ui->btnlogin,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(ui->btnbalance,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(ui->btnactions,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(ui->btnnext,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(ui->btnprev,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(ui->btndraw,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(ui->btncredit,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(ui->btndebit,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(ui->btnback,SIGNAL(clicked()),
+            this,SLOT(maintimer()));
+    connect(&timer,SIGNAL(timeout()),
+            this,SLOT(handletimeout()));
+
+    connect(pdraw,SIGNAL(senddraw(double)),
+            this,SLOT(receivedraw(double)));
+
+    connect(this,SIGNAL(senddouble(double)),
+           pRest,SLOT(drawraha(double)));
+
+
+
+
+
 
 }
 
@@ -23,16 +58,17 @@ MainWindow::~MainWindow()
     delete ui;
     delete pRFID;
     pRFID = nullptr;
+    delete p1;
+    p1 = nullptr;
+    delete pRest;
+    pRest= nullptr;
+
 }
 
 void MainWindow::runstatemachine(states s, events e)
 {
 
     switch (s) {
-    case login:
-        loginhandler(e);
-    break;
-
     case mainscreen:
         mainhandler(e);
     break;
@@ -57,17 +93,63 @@ void MainWindow::runstatemachine(states s, events e)
 
     }
 }
+void MainWindow::returnpostslot(QString return_data)//restdll
+{
+    ui->lnscreen->setText(return_data);
+}
 
-void MainWindow::getid(QByteArray b)
+void MainWindow::receivedraw(double drawamount)
+{
+    qDebug()<<"at drawrahareceive";
+    emit senddouble(drawamount);
+}
+
+void MainWindow::getid(QByteArray b)//RFID
 {
    StringID = QString(b);
    qDebug()<<"exessä Qstringinä->:"<<StringID;
    disconnect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
 }
 
-void MainWindow::receive(QString s)
+void MainWindow::receive(QString s)//PINUI
 {
- ui->lnscreen->setText(s);
+    //ui->lnscreen->setText(s);
+    connect(this,SIGNAL(sendparams(QString,QString)),
+            pRest,SLOT(recvpostvalues(QString,QString)));
+    param1=StringID;
+    param2=s;
+
+    //param1 = ui->lnstate->text();//KORTTINUMERONSYÖTTÖ ILMAN RFID
+    //param2 = ui->lnscreen->text();//PIN syöttö
+    qDebug()<<"param1";
+    qDebug()<<param1;
+    qDebug()<<"param2";
+    qDebug()<<param2;
+
+   emit sendparams(param1,param2);
+
+    disconnect(this,SIGNAL(sendparams(QString,QString)),
+            pRest,SLOT(recvpostvalues(QString,QString)));
+}
+
+void MainWindow::maintimer()
+{
+    //qDebug() << "start timer 30s";
+    timer.start(30000);
+
+}
+
+
+void MainWindow::handletimeout()
+{
+    qDebug()<<"at timeout";
+    ui->lnscreen->setText("Insert card");
+    event = userlogout;
+    state = start;
+    ui->lnstate->setText("start");
+    timer.stop();
+
+
 }
 
 void MainWindow::on_btnlogin_clicked()
@@ -75,57 +157,41 @@ void MainWindow::on_btnlogin_clicked()
     event = userlogin;
     runstatemachine(state, event);
 }
-
-
 void MainWindow::on_btnactions_clicked()
 {
     event = usebankactions;
     runstatemachine(state, event);
 }
-
-
 void MainWindow::on_btnnext_clicked()
 {
     event = usenext10;
     runstatemachine(state, event);
 }
-
-
 void MainWindow::on_btnprev_clicked()
 {
     event = useprev10;
     runstatemachine(state, event);
 }
-
-
 void MainWindow::on_btndraw_clicked()
 {
     event = usedraw;
     runstatemachine(state, event);
 }
-
-
 void MainWindow::on_btncredit_clicked()
 {
     event = usecredit;
     runstatemachine(state, event);
 }
-
-
 void MainWindow::on_btndebit_clicked()
 {
     event = usedebit;
     runstatemachine(state, event);
 }
-
 void MainWindow::on_btnbalance_clicked()
 {
     event= usebalance;
     runstatemachine(state, event);
 }
-
-
-
 void MainWindow::on_btnlogout_clicked()
 {
     event = userlogout;
@@ -137,50 +203,57 @@ void MainWindow::on_btnback_clicked()
     runstatemachine(state, event);
 }
 
-void MainWindow::loginhandler(events e)
-{
-    if (e == userlogin){
-        ui->lnscreen->setText("Logged in");
-    }
-    else {
-        ui->lnscreen->setText("Wrong from login");
-    }
-}
 
 void MainWindow::mainhandler(events e)
 {
+    //qDebug()<<"at main";
+    maintimer();
     if (e == usebankactions){
         ui->lnscreen->setText("Here you can see your account actions");
         event = usebankactions;
         state = acchistory;
         ui->lnstate->setText("acchistory");
+        timer.stop();
     }
     else if (e == usedraw){
         ui->lnscreen->setText("Select Credit or Debit");
         event = usedraw;
         state = draw;
         ui->lnstate->setText("draw");
+        timer.stop();
     }
     else if (e == usebalance){
-        ui->lnscreen->setText("Here you can see your account balance");
+        //ui->lnscreen->setText("Here you can see your account balance");
         event = usebalance;
         state = balance;
         ui->lnstate->setText("balance");
+        connect(this,SIGNAL(getparams()),
+                pRest,SLOT(getsaldo()));
+
+
+       emit getparams();
+
+        disconnect(this,SIGNAL(getparams()),
+                pRest,SLOT(getsaldo()));
+        timer.stop();
     }
     else if (e == userlogout){
-        ui->lnscreen->setText("Logged out");
+        ui->lnscreen->setText("Insert card");
         event = userlogout;
         state = start;
         ui->lnstate->setText("start");
+        timer.stop();
     }
     else if (e == back){
         ui->lnscreen->setText("back to mainscreen");
         event = back;
         state = mainscreen;
         ui->lnstate->setText("mainscreen");
+        timer.stop();
     }
     else {
         ui->lnscreen->setText("Wrong from main");
+        timer.stop();
     }
 
 }
@@ -188,10 +261,15 @@ void MainWindow::mainhandler(events e)
 void MainWindow::historyhandler(events e)
 {
     if (e == usenext10){
-        ui->lnscreen->setText("next 10 actions");
+        //ui->lnscreen->setText("next 10 actions");
         event = usenext10;
         //state = acchistory;
         //ui->lnstate->setText("acchistory");
+        double drawamount=50;
+        connect(this,SIGNAL(senddouble(double)),//TESTI
+               pRest,SLOT(drawraha(double)));
+        qDebug()<<"amount"<<drawamount;
+        emit senddouble(drawamount);
     }
     else if (e == useprev10){
         ui->lnscreen->setText("prev 10 actions");
@@ -206,7 +284,7 @@ void MainWindow::historyhandler(events e)
         ui->lnstate->setText("mainscreen");
     }
     else if (e == userlogout){
-        ui->lnscreen->setText("Logged out");
+        ui->lnscreen->setText("Insert card");
         event = userlogout;
         state = start;
         ui->lnstate->setText("start");
@@ -226,7 +304,7 @@ void MainWindow::balancehandler(events e)
         ui->lnstate->setText("mainscreen");
     }
     else if (e == userlogout){
-       ui->lnscreen->setText("Logged out");
+       ui->lnscreen->setText("Insert card");
        event = userlogout;
        state = start;
        ui->lnstate->setText("start");
@@ -242,6 +320,7 @@ void MainWindow::drawhandler(events e)
         drawmoney.setModal(true);
         drawmoney.exec();
         event = usecredit;
+        //state = mainscreen;
         //state = draw;
         //ui->lnstate->setText("draw");
     }
@@ -251,6 +330,7 @@ void MainWindow::drawhandler(events e)
         drawmoney.setModal(true);
         drawmoney.exec();
         event = usedebit;
+        //state = mainscreen;
         //state = draw;
         //ui->lnstate->setText("draw");
     }
@@ -259,9 +339,10 @@ void MainWindow::drawhandler(events e)
         event = back;
         state = mainscreen;
         ui->lnstate->setText("mainscreen");
+        //receivedraw();
     }
     else if (e == userlogout){
-       ui->lnscreen->setText("Logged out");
+       ui->lnscreen->setText("Insert card");
        event = userlogout;
        state = start;
        ui->lnstate->setText("start");
@@ -280,7 +361,7 @@ void MainWindow::credithandler(events e)
         ui->lnstate->setText("mainscreen");
     }
     else if (e == userlogout){
-        ui->lnscreen->setText("Logged out");
+        ui->lnscreen->setText("Insert card");
         event = userlogout;
         state = start;
         ui->lnstate->setText("start");
@@ -296,7 +377,7 @@ void MainWindow::debithandler(events e)
         ui->lnstate->setText("mainscreen");
      }
      else if (e == userlogout){
-        ui->lnscreen->setText("Logged out");
+        ui->lnscreen->setText("Insert card");
         event = userlogout;
         state = start;
         ui->lnstate->setText("start");
@@ -305,25 +386,29 @@ void MainWindow::debithandler(events e)
 
 void MainWindow::starthandler(events e)
 {
+    //qDebug()<<"at start";
+
+
+
+    pRFID = new RFID;
+    pRFID->readSerial();
+    connect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
     if (e == userlogin){
-        pRFID = new RFID;
-        pRFID->readSerial();
-        connect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
         p1=new Interface(this);
         connect(p1,SIGNAL(testi(QString)),
                 this,SLOT(receive(QString)));
-        show();
 
-        ui->lnscreen->setText(QString(StringID));
-        ui->lnstate->setText("mainscreen");
+
+
+
+        //ui->lnscreen->setText(QString(StringID));
+        //ui->lnstate->setText("mainscreen");
         event = userlogin;
         state = mainscreen;
 
 
     }
-    else {
+    else/*( e != userlogin)*/  {
         ui->lnscreen->setText("Start by logging in");
     }
 }
-
-

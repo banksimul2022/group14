@@ -144,7 +144,7 @@
    <widget class="QLineEdit" name="lnstate">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>210</x>
       <y>300</y>
       <width>113</width>
       <height>21</height>
@@ -177,7 +177,7 @@
    </property>
    <widget class="QMenu" name="menuBankrot_Oy">
     <property name="title">
-     <string>Bankrott Oy</string>
+     <string> </string>
     </property>
    </widget>
    <widget class="QMenu" name="menu">

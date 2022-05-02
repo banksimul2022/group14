@@ -15,7 +15,7 @@ RFID::~RFID()
 
 void RFID::readSerial()
 {
-    serial->setPortName("COM4");
+    serial->setPortName("COM3");
     serial->open(QIODevice::ReadOnly);
     connect(serial, SIGNAL(readyRead()),this, SLOT(recvID()));
 }

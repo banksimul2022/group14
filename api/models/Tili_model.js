@@ -18,11 +18,11 @@ const Tili = {
   delete: function(idTili, callback) {
     return db.query('delete from Tili where idTili=?', [idTili], callback);
   },
-  update: function(id, Tili, callback) {
+  update: function(id, Tili,callback) {
     return db.query(
-      'update Tili set Saldo=?, Credit=?, Luottoraja=? where idTili=?',
-      [Tili.Saldo, Tili.Credit, Tili.Luottoraja, Tili.idTili],
-      callback
+      'call otto10(?,?)',
+      [Tili.saldomuutos, Tili.tiliID],callback
+      
     );
   }
 }

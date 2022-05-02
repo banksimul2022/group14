@@ -129,7 +129,7 @@ void engine::on_pushButton_OK_clicked()
         emit interfacelle(pin);
 
     }
-
+    close();
 }
 
 

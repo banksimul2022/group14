@@ -2,9 +2,8 @@
 #define DRAWMONEY_H
 
 #include <QDialog>
-
 #include "ui_drawmoney.h"
-#include "mainwindow.h"
+#include <QDebug>
 
 namespace Ui {
 class Drawmoney;
@@ -34,11 +33,13 @@ private slots:
     void on_btnback_clicked();
 
     void on_btndraw_clicked();
-
+signals:
+    void senddraw(double);
 public slots:
     void button_press();
 private:
-    Ui::Drawmoney *ui;
+    Ui::Drawmoney * ui;
+
 };
 
 #endif // DRAWMONEY_H
