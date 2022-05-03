@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+
     connect(pRest,SIGNAL(returnvalues(QString)),
             this,SLOT(returnpostslot(QString)));
 
@@ -37,10 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
             this,SLOT(maintimer()));
     connect(ui->btndraw,SIGNAL(clicked()),
             this,SLOT(maintimer()));
-    connect(ui->btncredit,SIGNAL(clicked()),
-            this,SLOT(maintimer()));
-    connect(ui->btndebit,SIGNAL(clicked()),
-            this,SLOT(maintimer()));
     connect(ui->btnback,SIGNAL(clicked()),
             this,SLOT(maintimer()));
     connect(&timer,SIGNAL(timeout()),
@@ -50,6 +47,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(pdrawmoney,SIGNAL(senddraw(double)),
             this,SLOT(receivedraw(double)));
+    connect(pdrawmoney,SIGNAL(sendcredit(double)),
+            this,SLOT(receivecredit(double)));
+
 
 
 
@@ -95,12 +95,6 @@ void MainWindow::runstatemachine(states s, events e)
     case draw:
         drawhandler(e);
     break;
-    case credit:
-        credithandler(e);
-    break;
-    case debit:
-        debithandler(e);
-    break;
     case start:
         starthandler(e);
 
@@ -115,15 +109,20 @@ void MainWindow::receivedraw(double drawamount)
 {
     //connect(this,SIGNAL(senddouble(double)),
     //      pRest,SLOT(drawraha(double)));
-
+    //emit senddouble(drawamount);
     qDebug()<<"at drawrahareceive from main";
     qDebug()<<drawamount;
-
- //emit senddouble(drawamount);
-
     pRest->drawraha(drawamount);
 }
-
+void MainWindow::receivecredit(double drawamount)
+{
+    //connect(this,SIGNAL(senddouble(double)),
+    //      pRest,SLOT(drawraha(double)));
+    //emit senddouble(drawamount);
+    qDebug()<<"at drawrahareceive from main";
+    qDebug()<<drawamount;
+    pRest->drawraha(drawamount);
+}
 void MainWindow::getid(QByteArray b)//RFID
 {
    StringID = QString(b);
@@ -197,16 +196,6 @@ void MainWindow::on_btndraw_clicked()
     event = usedraw;
     runstatemachine(state, event);
 }
-void MainWindow::on_btncredit_clicked()
-{
-    event = usecredit;
-    runstatemachine(state, event);
-}
-void MainWindow::on_btndebit_clicked()
-{
-    event = usedebit;
-    runstatemachine(state, event);
-}
 void MainWindow::on_btnbalance_clicked()
 {
     event= usebalance;
@@ -236,9 +225,11 @@ void MainWindow::mainhandler(events e)
         timer.stop();
     }
     else if (e == usedraw){
-        ui->lnscreen->setText("Select Credit or Debit");
+        ui->lnscreen->setText("Draw money");
         event = usedraw;
-        state = draw;
+        state = mainscreen;
+        pdrawmoney->setModal(true);
+        pdrawmoney->show();
         ui->lnstate->setText("draw");
         timer.stop();
     }
@@ -281,19 +272,9 @@ void MainWindow::mainhandler(events e)
 void MainWindow::historyhandler(events e)
 {
     if (e == usenext10){
-        //ui->lnscreen->setText("next 10 actions");
+        ui->lnscreen->setText("next 10 actions");
         event = usenext10;
-        //state = acchistory;
-        //ui->lnstate->setText("acchistory");
-        double drawamount=10;
-        /*connect(this,SIGNAL(senddouble(double)),//TESTI
-               pRest,SLOT(drawraha(double)));
-        qDebug()<<"amount"<<drawamount;
-        emit senddouble(drawamount);
-        disconnect(this,SIGNAL(senddouble(double)),//TESTI
-               pRest,SLOT(drawraha(double)));
-               */
-        pRest->drawraha(drawamount);
+
     }
     else if (e == useprev10){
         ui->lnscreen->setText("prev 10 actions");
@@ -338,28 +319,7 @@ void MainWindow::balancehandler(events e)
 
 void MainWindow::drawhandler(events e)
 {
-    if (e == usecredit){
-        ui->lnscreen->setText("Selected Credit");
-        /*Drawmoney drawmoney;
-        drawmoney.setModal(true);
-        drawmoney.exec();*/
-        pdrawmoney->setModal(true);
-        pdrawmoney->show();
-        event = usecredit;
-        //state = mainscreen;
-        //state = draw;
-        //ui->lnstate->setText("draw");
-    }
-    else if (e == usedebit){
-        ui->lnscreen->setText("Selected Debit");
-        pdrawmoney->setModal(true);
-        pdrawmoney->show();
-        event = usedebit;
-        //state = mainscreen;
-        //state = draw;
-        //ui->lnstate->setText("draw");
-    }
-    else if (e == back){
+     if (e == back){
         ui->lnscreen->setText("back to mainscreen");
 
         event = back;
@@ -378,37 +338,6 @@ void MainWindow::drawhandler(events e)
 
 }
 
-void MainWindow::credithandler(events e)
-   {
-    if  (e == back){
-        ui->lnscreen->setText("back to mainscreen");
-        event = back;
-        state = mainscreen;
-        ui->lnstate->setText("mainscreen");
-    }
-    else if (e == userlogout){
-        ui->lnscreen->setText("Insert card");
-        event = userlogout;
-        state = start;
-        ui->lnstate->setText("start");
-    }
-}
-
-void MainWindow::debithandler(events e)
-{
-     if (e == back){
-        ui->lnscreen->setText("back to mainscreen");
-        event = back;
-        state = mainscreen;
-        ui->lnstate->setText("mainscreen");
-     }
-     else if (e == userlogout){
-        ui->lnscreen->setText("Insert card");
-        event = userlogout;
-        state = start;
-        ui->lnstate->setText("start");
-    }
-}
 
 void MainWindow::starthandler(events e)
 {

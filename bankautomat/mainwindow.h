@@ -26,8 +26,6 @@ enum states{
     acchistory,
     balance,
     draw,
-    credit,
-    debit,
     start
 };
 enum events{
@@ -36,8 +34,6 @@ enum events{
     usenext10,
     useprev10,
     usedraw,
-    usecredit,
-    usedebit,
     userlogout,
     usebalance,
     back,
@@ -61,6 +57,9 @@ public slots:
     void maintimer();
     void returnpostslot(QString);
     void receivedraw(double);
+    void receivecredit(double);
+
+
 
 
 
@@ -70,8 +69,6 @@ private slots:
     void on_btnnext_clicked();
     void on_btnprev_clicked();
     void on_btndraw_clicked();
-    void on_btncredit_clicked();
-    void on_btndebit_clicked();
     void on_btnlogout_clicked();
     void on_btnback_clicked();
     void on_btnbalance_clicked();
@@ -79,6 +76,7 @@ signals:
    void sendparams(QString param1,QString param2);
    void senddouble(double);
    void getparams();
+   void sigcredit();
 
 private:
     Ui::MainWindow *ui;
