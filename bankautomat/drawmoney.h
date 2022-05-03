@@ -34,13 +34,16 @@ private slots:
     void on_btnback_clicked();
 
     void on_btndraw_clicked();
+    void on_btncredit_clicked();
+
 signals:
     void senddraw(double);
+    void sendcredit(double);
 public slots:
     void button_press();
 private:
     Ui::Drawmoney * ui;
-    //MainWindow * pmain;
+
 
 };
 

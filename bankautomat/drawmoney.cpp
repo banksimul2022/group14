@@ -46,6 +46,8 @@ button_press();
 }
 void Drawmoney::on_btnback_clicked()
 {
+ui->lineEdit->setText(0);
+drawamount=0;
 close();
 }
 void Drawmoney::on_btndraw_clicked()
@@ -53,6 +55,7 @@ void Drawmoney::on_btndraw_clicked()
 qDebug()<<"amount drawissa"<<drawamount;
 emit senddraw(drawamount);
 ui->lineEdit->setText(0);
+drawamount=0;
 close();
 }
 void Drawmoney::button_press()
@@ -70,3 +73,13 @@ void Drawmoney::button_press()
         drawamount = newamount.toDouble();
     return;
 }
+
+void Drawmoney::on_btncredit_clicked()
+{
+    qDebug()<<"amount creditissä"<<drawamount;
+    emit sendcredit(drawamount);
+    ui->lineEdit->setText(0);
+    drawamount=0;
+    close();
+}
+

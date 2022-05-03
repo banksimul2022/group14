@@ -18,12 +18,12 @@
     <rect>
      <x>260</x>
      <y>0</y>
-     <width>151</width>
+     <width>71</width>
      <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string>Draw</string>
+    <string>Draw Debit</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btndraw20">
@@ -125,6 +125,19 @@
      <width>251</width>
      <height>121</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btncredit">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>0</y>
+     <width>71</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Draw Credit</string>
    </property>
   </widget>
  </widget>
