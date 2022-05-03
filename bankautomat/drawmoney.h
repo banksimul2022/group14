@@ -4,7 +4,8 @@
 #include <QDialog>
 #include "ui_drawmoney.h"
 #include <QDebug>
-
+//#include "mainwindow.h"
+//class MainWindow;
 namespace Ui {
 class Drawmoney;
 }
@@ -39,6 +40,7 @@ public slots:
     void button_press();
 private:
     Ui::Drawmoney * ui;
+    //MainWindow * pmain;
 
 };
 

@@ -13,7 +13,7 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 
-
+//class drawmoney;
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -82,6 +82,8 @@ signals:
 
 private:
     Ui::MainWindow *ui;
+
+
     RFID * pRFID;
     QString StringID;
     Interface * p1;
@@ -98,7 +100,8 @@ private:
     Restdll * pRest;
     QString param1;
     QString param2;
-    Drawmoney * pdraw;
+    //Ui::Drawmoney * pdraw;
+    Drawmoney * pdrawmoney;
 
 };
 #endif // MAINWINDOW_H

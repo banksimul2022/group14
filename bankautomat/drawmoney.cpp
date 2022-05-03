@@ -7,6 +7,11 @@ Drawmoney::Drawmoney(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //pmain = new MainWindow;
+
+//    connect(this,SIGNAL(senddraw(double)),
+//            pmain,SLOT(receivedraw(double)));
+
 
 }
 
@@ -19,52 +24,37 @@ void Drawmoney::on_btndraw20_clicked()
 {
 button_press();
 }
-
-
 void Drawmoney::on_btndraw40_clicked()
 {
 button_press();
 }
-
-
 void Drawmoney::on_btndraw60_clicked()
 {
 button_press();
 }
-
-
 void Drawmoney::on_btndraw100_clicked()
 {
 button_press();
 }
-
-
 void Drawmoney::on_btndraw200_clicked()
 {
 button_press();
 }
-
-
 void Drawmoney::on_btndraw500_clicked()
 {
 button_press();
 }
-
-
 void Drawmoney::on_btnback_clicked()
 {
 close();
 }
-
-
 void Drawmoney::on_btndraw_clicked()
 {
 qDebug()<<"amount drawissa"<<drawamount;
 emit senddraw(drawamount);
+ui->lineEdit->setText(0);
 close();
-
 }
-
 void Drawmoney::button_press()
 {
     QPushButton*button=(QPushButton*)sender();
@@ -80,4 +70,3 @@ void Drawmoney::button_press()
         drawamount = newamount.toDouble();
     return;
 }
-
