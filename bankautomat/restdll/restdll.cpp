@@ -174,6 +174,7 @@ void Restdll::drawraha(double saldonmuutos)
         QNetworkRequest request1((base_url+"/tili"));
 
           request1.setRawHeader(QByteArray("Authorization"),(token));
+
         request1.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
         //userid=param1;
 

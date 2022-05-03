@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QString>
 
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -13,8 +15,12 @@ MainWindow::MainWindow(QWidget *parent)
     //p1=new Interface(this);
     //connect(p1,SIGNAL(testi(QString)),
     //        this,SLOT(receive(QString)));
-    pRest = new Restdll(this);
-    pdraw = new Drawmoney(this);
+    pRest = new Restdll;
+    pdrawmoney = new Drawmoney;
+
+
+
+
 
     connect(pRest,SIGNAL(returnvalues(QString)),
             this,SLOT(returnpostslot(QString)));
@@ -39,12 +45,15 @@ MainWindow::MainWindow(QWidget *parent)
             this,SLOT(maintimer()));
     connect(&timer,SIGNAL(timeout()),
             this,SLOT(handletimeout()));
+    connect(ui->btnlogout,SIGNAL(clicked()),
+            pRest,SLOT(logout()));
 
-    connect(pdraw,SIGNAL(senddraw(double)),
+    connect(pdrawmoney,SIGNAL(senddraw(double)),
             this,SLOT(receivedraw(double)));
 
-    connect(this,SIGNAL(senddouble(double)),
-           pRest,SLOT(drawraha(double)));
+
+
+
 
 
 
@@ -62,6 +71,10 @@ MainWindow::~MainWindow()
     p1 = nullptr;
     delete pRest;
     pRest= nullptr;
+    delete pdrawmoney;
+    pdrawmoney = nullptr;
+
+
 
 }
 
@@ -100,8 +113,15 @@ void MainWindow::returnpostslot(QString return_data)//restdll
 
 void MainWindow::receivedraw(double drawamount)
 {
-    qDebug()<<"at drawrahareceive";
-    emit senddouble(drawamount);
+    //connect(this,SIGNAL(senddouble(double)),
+    //      pRest,SLOT(drawraha(double)));
+
+    qDebug()<<"at drawrahareceive from main";
+    qDebug()<<drawamount;
+
+ //emit senddouble(drawamount);
+
+    pRest->drawraha(drawamount);
 }
 
 void MainWindow::getid(QByteArray b)//RFID
@@ -135,7 +155,7 @@ void MainWindow::receive(QString s)//PINUI
 void MainWindow::maintimer()
 {
     //qDebug() << "start timer 30s";
-    timer.start(30000);
+    timer.start(300000000);
 
 }
 
@@ -265,11 +285,15 @@ void MainWindow::historyhandler(events e)
         event = usenext10;
         //state = acchistory;
         //ui->lnstate->setText("acchistory");
-        double drawamount=50;
-        connect(this,SIGNAL(senddouble(double)),//TESTI
+        double drawamount=10;
+        /*connect(this,SIGNAL(senddouble(double)),//TESTI
                pRest,SLOT(drawraha(double)));
         qDebug()<<"amount"<<drawamount;
         emit senddouble(drawamount);
+        disconnect(this,SIGNAL(senddouble(double)),//TESTI
+               pRest,SLOT(drawraha(double)));
+               */
+        pRest->drawraha(drawamount);
     }
     else if (e == useprev10){
         ui->lnscreen->setText("prev 10 actions");
@@ -316,9 +340,11 @@ void MainWindow::drawhandler(events e)
 {
     if (e == usecredit){
         ui->lnscreen->setText("Selected Credit");
-        Drawmoney drawmoney;
+        /*Drawmoney drawmoney;
         drawmoney.setModal(true);
-        drawmoney.exec();
+        drawmoney.exec();*/
+        pdrawmoney->setModal(true);
+        pdrawmoney->show();
         event = usecredit;
         //state = mainscreen;
         //state = draw;
@@ -326,9 +352,8 @@ void MainWindow::drawhandler(events e)
     }
     else if (e == usedebit){
         ui->lnscreen->setText("Selected Debit");
-        Drawmoney drawmoney;
-        drawmoney.setModal(true);
-        drawmoney.exec();
+        pdrawmoney->setModal(true);
+        pdrawmoney->show();
         event = usedebit;
         //state = mainscreen;
         //state = draw;
@@ -336,10 +361,11 @@ void MainWindow::drawhandler(events e)
     }
     else if (e == back){
         ui->lnscreen->setText("back to mainscreen");
+
         event = back;
         state = mainscreen;
         ui->lnstate->setText("mainscreen");
-        //receivedraw();
+
     }
     else if (e == userlogout){
        ui->lnscreen->setText("Insert card");
