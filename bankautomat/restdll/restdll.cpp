@@ -115,27 +115,50 @@ void Restdll::getsaldo()
 {
     qDebug()<<" getsaldo kohdassa";
     QNetworkRequest request((base_url+"/tilitapahtumat/"+idtili));
-    QNetworkRequest request2((base_url+"/tili/"+idtili));
+    //QNetworkRequest request2((base_url+"/tili/"+idtili));
 
         request.setRawHeader(QByteArray("Authorization"),(token));
-         request2.setRawHeader(QByteArray("Authorization"),(token));
+         //request2.setRawHeader(QByteArray("Authorization"),(token));
 
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-         request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+         //request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
 
 
         getmanager = new QNetworkAccessManager(this);
-        getmanager2 = new QNetworkAccessManager(this);
+        //getmanager2 = new QNetworkAccessManager(this);
         connect(getmanager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoslot(QNetworkReply*)));
-        connect(getmanager2, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoslot2(QNetworkReply*)));
+        //connect(getmanager2, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoslot2(QNetworkReply*)));
 
 
         reply = getmanager->get(request);
+        //reply2 = getmanager2->get(request2);
+
+}
+void Restdll::getbalance()
+{
+    qDebug()<<" getsaldo kohdassa";
+    //QNetworkRequest request((base_url+"/tilitapahtumat/"+idtili));
+    QNetworkRequest request2((base_url+"/tili/"+idtili));
+
+        //request.setRawHeader(QByteArray("Authorization"),(token));
+         request2.setRawHeader(QByteArray("Authorization"),(token));
+
+        //request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+         request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+
+
+        //getmanager = new QNetworkAccessManager(this);
+        getmanager2 = new QNetworkAccessManager(this);
+        //connect(getmanager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoslot(QNetworkReply*)));
+        connect(getmanager2, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoslot2(QNetworkReply*)));
+
+
+        //reply = getmanager->get(request);
         reply2 = getmanager2->get(request2);
 
 }
-
 
 void Restdll::saldoslot(QNetworkReply *reply)
 {
@@ -186,7 +209,28 @@ void Restdll::drawraha(double saldonmuutos)
 
 
 }
+void Restdll::drawcredit(double saldonmuutos)
+{
 
+    qDebug()<<" drawraha kohdassa";
+
+        QJsonObject jsonObj;
+        jsonObj.insert("saldomuutos",saldonmuutos);
+        jsonObj.insert("tiliID",idtili);
+        QNetworkRequest request1((base_url+"/credit/tili"));
+
+          request1.setRawHeader(QByteArray("Authorization"),(token));
+        request1.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+
+        putmanager = new QNetworkAccessManager(this);
+        connect(putmanager, SIGNAL(finished(QNetworkReply)), this, SLOT(drawslot(QNetworkReply)));
+
+
+        reply = putmanager->put(request1, QJsonDocument(jsonObj).toJson());
+
+
+}
 
 void Restdll::drawslot(QNetworkReply *reply1)
 {

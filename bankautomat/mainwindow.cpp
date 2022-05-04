@@ -103,6 +103,13 @@ void MainWindow::runstatemachine(states s, events e)
 void MainWindow::returnpostslot(QString return_data)//restdll
 {
     ui->lnscreen->setText(return_data);
+    if (return_data=="Forbidden"){
+        event = userlogin;
+        state = start;
+        //ui->lnstate->setText("start");
+        qDebug()<<"njet";
+    }
+    qDebug()<<"testidata"+return_data;
 }
 
 void MainWindow::receivedraw(double drawamount)
@@ -113,6 +120,7 @@ void MainWindow::receivedraw(double drawamount)
     qDebug()<<"at drawrahareceive from main";
     qDebug()<<drawamount;
     pRest->drawraha(drawamount);
+    ui->lnscreen->setText("Draw done");
 }
 void MainWindow::receivecredit(double drawamount)
 {
@@ -121,7 +129,8 @@ void MainWindow::receivecredit(double drawamount)
     //emit senddouble(drawamount);
     qDebug()<<"at drawrahareceive from main";
     qDebug()<<drawamount;
-    pRest->drawraha(drawamount);
+    pRest->drawcredit(drawamount);
+    ui->lnscreen->setText("Draw done");
 }
 void MainWindow::getid(QByteArray b)//RFID
 {
@@ -154,7 +163,7 @@ void MainWindow::receive(QString s)//PINUI
 void MainWindow::maintimer()
 {
     //qDebug() << "start timer 30s";
-    timer.start(300000000);
+    timer.start(30000);
 
 }
 
@@ -165,7 +174,7 @@ void MainWindow::handletimeout()
     ui->lnscreen->setText("Insert card");
     event = userlogout;
     state = start;
-    ui->lnstate->setText("start");
+    //ui->lnstate->setText("start");
     timer.stop();
 
 
@@ -218,10 +227,11 @@ void MainWindow::mainhandler(events e)
     //qDebug()<<"at main";
     maintimer();
     if (e == usebankactions){
-        ui->lnscreen->setText("Here you can see your account actions");
+        //ui->lnscreen->setText("Here you can see your account actions");
         event = usebankactions;
         state = acchistory;
-        ui->lnstate->setText("acchistory");
+        pRest->getsaldo();
+        //ui->lnstate->setText("acchistory");
         timer.stop();
     }
     else if (e == usedraw){
@@ -230,15 +240,15 @@ void MainWindow::mainhandler(events e)
         state = mainscreen;
         pdrawmoney->setModal(true);
         pdrawmoney->show();
-        ui->lnstate->setText("draw");
+        //ui->lnstate->setText("draw");
         timer.stop();
     }
     else if (e == usebalance){
         //ui->lnscreen->setText("Here you can see your account balance");
         event = usebalance;
         state = balance;
-        ui->lnstate->setText("balance");
-        connect(this,SIGNAL(getparams()),
+        //ui->lnstate->setText("balance");
+        /*connect(this,SIGNAL(getparams()),
                 pRest,SLOT(getsaldo()));
 
 
@@ -246,20 +256,22 @@ void MainWindow::mainhandler(events e)
 
         disconnect(this,SIGNAL(getparams()),
                 pRest,SLOT(getsaldo()));
+                */
+        pRest->getbalance();
         timer.stop();
     }
     else if (e == userlogout){
         ui->lnscreen->setText("Insert card");
         event = userlogout;
         state = start;
-        ui->lnstate->setText("start");
+        //ui->lnstate->setText("start");
         timer.stop();
     }
     else if (e == back){
         ui->lnscreen->setText("back to mainscreen");
         event = back;
         state = mainscreen;
-        ui->lnstate->setText("mainscreen");
+        //ui->lnstate->setText("mainscreen");
         timer.stop();
     }
     else {
@@ -286,13 +298,13 @@ void MainWindow::historyhandler(events e)
         ui->lnscreen->setText("back to mainscreen");
         event = back;
         state = mainscreen;
-        ui->lnstate->setText("mainscreen");
+        //ui->lnstate->setText("mainscreen");
     }
     else if (e == userlogout){
         ui->lnscreen->setText("Insert card");
         event = userlogout;
         state = start;
-        ui->lnstate->setText("start");
+        //ui->lnstate->setText("start");
     }
     else {
         ui->lnscreen->setText("Wrong from history");
@@ -306,13 +318,13 @@ void MainWindow::balancehandler(events e)
         ui->lnscreen->setText("back to mainscreen");
         event = back;
         state = mainscreen;
-        ui->lnstate->setText("mainscreen");
+        //ui->lnstate->setText("mainscreen");
     }
     else if (e == userlogout){
        ui->lnscreen->setText("Insert card");
        event = userlogout;
        state = start;
-       ui->lnstate->setText("start");
+       //ui->lnstate->setText("start");
 
     }
 }
@@ -324,14 +336,14 @@ void MainWindow::drawhandler(events e)
 
         event = back;
         state = mainscreen;
-        ui->lnstate->setText("mainscreen");
+        //ui->lnstate->setText("mainscreen");
 
     }
     else if (e == userlogout){
        ui->lnscreen->setText("Insert card");
        event = userlogout;
        state = start;
-       ui->lnstate->setText("start");
+       //ui->lnstate->setText("start");
 
     }
 
@@ -342,9 +354,6 @@ void MainWindow::drawhandler(events e)
 void MainWindow::starthandler(events e)
 {
     //qDebug()<<"at start";
-
-
-
     pRFID = new RFID;
     pRFID->readSerial();
     connect(pRFID,SIGNAL(sendtoexe(QByteArray)),this, SLOT(getid(QByteArray)));
@@ -352,18 +361,12 @@ void MainWindow::starthandler(events e)
         p1=new Interface(this);
         connect(p1,SIGNAL(testi(QString)),
                 this,SLOT(receive(QString)));
-
-
-
-
-        //ui->lnscreen->setText(QString(StringID));
+       //ui->lnscreen->setText(QString(StringID));
         //ui->lnstate->setText("mainscreen");
         event = userlogin;
         state = mainscreen;
-
-
     }
-    else/*( e != userlogin)*/  {
+    else  {
         ui->lnscreen->setText("Start by logging in");
     }
 }

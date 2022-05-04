@@ -22,8 +22,9 @@ const Tili = {
     return db.query(
       'call otto10(?,?)',
       [Tili.saldomuutos, Tili.tiliID],callback
-      
+
     );
-  }
+  },
+
 }
 module.exports = Tili;

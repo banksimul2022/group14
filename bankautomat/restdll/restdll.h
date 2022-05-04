@@ -23,7 +23,9 @@ public slots:
    void recvpostvalues(QString param1,QString param2);
    void logingetID();
    void getsaldo();
+   void getbalance();
    void drawraha(double saldonmuutos);
+   void drawcredit(double saldonmuutos);
    void logout();
 private slots:
     //void loginbtn();
