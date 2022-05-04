@@ -32,7 +32,7 @@ router.post('/',
                     response.send(false);
                     laskuri++;
                     if(laskuri==3){
-                      return db.query('update kortti set lukko=1 where korttinumero=?', [korttinumero]), /*callback)*/
+                      return db.query('update kortti set lukko=1 where korttinumero=?', [korttinumero])
                       console.log("card locked")
                     }
                 }

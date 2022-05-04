@@ -107,7 +107,7 @@ void MainWindow::returnpostslot(QString return_data)//restdll
         event = userlogin;
         state = start;
         //ui->lnstate->setText("start");
-        qDebug()<<"njet";
+     ui->lnscreen->setText("Wrong password or username, try again");
     }
     qDebug()<<"testidata"+return_data;
 }
