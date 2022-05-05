@@ -217,7 +217,7 @@ void Restdll::drawcredit(double saldonmuutos)
         QJsonObject jsonObj;
         jsonObj.insert("saldomuutos",saldonmuutos);
         jsonObj.insert("tiliID",idtili);
-        QNetworkRequest request1((base_url+"/credit/tili"));
+        QNetworkRequest request1((base_url+"/credit"));
 
           request1.setRawHeader(QByteArray("Authorization"),(token));
         request1.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
