@@ -11,6 +11,7 @@ const asiakas_tiliRouter = require('./routes/asiakas_tili');
 const AsiakasRouter = require ('./routes/Asiakas');
 const KorttiRouter = require ('./routes/Kortti');
 const TiliRouter = require('./routes/Tili');
+const CreditRouter = require('./routes/Credit');
 const TilitapahtumatRouter = require('./routes/Tilitapahtumat');
 
 var app = express();
@@ -27,6 +28,7 @@ app.use('/asiakas_tili', asiakas_tiliRouter);
 app.use('/Asiakas', AsiakasRouter);
 app.use('/Kortti', KorttiRouter);
 app.use('/Tili', TiliRouter);
+app.use('/Credit', CreditRouter);
 app.use('/Tilitapahtumat', TilitapahtumatRouter);
 
 module.exports = app;
