@@ -4,7 +4,7 @@ const Credit = {
 
   update: function(id, Credit,callback) {
     return db.query(
-      'call credit2(?,?)',
+      'call credit3(?,?)',
       [Credit.saldomuutos, Credit.tiliID],callback
 
     );

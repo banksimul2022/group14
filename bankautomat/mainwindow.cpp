@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
             this,SLOT(handletimeout()));
     connect(ui->btnlogout,SIGNAL(clicked()),
             pRest,SLOT(logout()));
+    ui->lnscreen->setText("Insert card");
 
     connect(pdrawmoney,SIGNAL(senddraw(double)),
             this,SLOT(receivedraw(double)));
@@ -107,7 +108,7 @@ void MainWindow::returnpostslot(QString return_data)//restdll
         event = userlogin;
         state = start;
         //ui->lnstate->setText("start");
-     ui->lnscreen->setText("Wrong password or username, try again");
+     ui->lnscreen->setText("Wrong password or card, try again");
     }
     qDebug()<<"testidata"+return_data;
 }
